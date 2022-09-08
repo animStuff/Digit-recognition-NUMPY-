@@ -31,6 +31,7 @@ class app(QWidget):
         self.label3.setStyleSheet('font-family: Radio Canada; font-size: 40px')
         self.label3.move(380, 100)
         
+
         # canvas area
         self.label1.setStyleSheet('font-family: Josefin Sans; font-size:40px')
         self.label1.move(30, 0)
@@ -132,7 +133,7 @@ class app(QWidget):
         def softmax(Z):
             return np.exp(Z)/sum(np.exp(Z))
             
-        lst_za, prev_l = [], X
+        lst_za, prev_l = [], np.expand_dims(X, axis=1)
         for i in range(len(lst_wb) - 1):
             W, B = lst_wb[i][0], lst_wb[i][1]
             
@@ -154,11 +155,11 @@ class app(QWidget):
         out = lst_za[-1][1]
         return out
     
-    def prediction_str(self, softmax_Y):
-        prediction = np.argmax(softmax_Y, axis=0)[0]
+    def prediction_str(self, out):
+        prediction = np.argmax(out, axis=0)[0]
         self.label3.clear()
-        
-        txt_output = f'{prediction}, {str(softmax_Y[prediction][0] * 100)[:2]}%'
+
+        txt_output = f'{prediction}, {str(out[prediction][0] * 100)[:2]}%'
         self.label3.setText(txt_output)
         self.label3.adjustSize()
 
@@ -167,7 +168,5 @@ class app(QWidget):
 if __name__ == '__main__':
     app = app()
 
-
-#%%
 
 #%%
